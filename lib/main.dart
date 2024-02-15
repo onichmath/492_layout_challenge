@@ -4,8 +4,6 @@ void main() {
   runApp(const MyApp());
 }
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -41,7 +39,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-
   final String title;
 
   @override
@@ -49,9 +46,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
-  Map<String,String> forecast = {
+  Map<String, String> forecast = {
     "name": "today",
     "temperature": "35",
     "shortForecast": "Snowy",
@@ -60,7 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
     "windDirection": "SE",
     "isDaytime": "true",
     "probabilityOfPercipitation": "100"
-
   };
 
   Map<String, String> location = {
@@ -71,12 +65,120 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Text(location["city"]!);
+    return Scaffold(
+        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      topRow(),
+      secondRow(),
+      BoxPlaceholder(
+          height: screenHeight / 10,
+          width: screenWidth / 2,
+          text:
+              "Wind going ${forecast["windSpeed"]}mph ${forecast["windDirection"]}",
+          color: Colors.red),
+      BoxPlaceholder(
+          height: screenHeight / 10,
+          width: screenWidth / 2,
+          text: forecast["detailedForecast"],
+          color: Colors.deepPurple)
+      //forecastText(forecast: forecast)
+    ]));
+  }
+
+  Row secondRow(screenHeight, screenWidth) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Center(
+            child: BoxPlaceholder(
+                height: 120,
+                width: 240,
+                text: "Temperature: ${forecast["temperature"]}F",
+                color: Colors.blue)),
+      ),
+      Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Center(
+            child: BoxPlaceholder(
+                height: 120,
+                width: 240,
+                text: "Daily Forecast: ${forecast["shortForecast"]}",
+                color: Colors.blue)),
+      ),
+    ]);
+  }
+
+  Row topRow(screenHeight, screenWidth) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      BoxPlaceholder(
+          height: 60,
+          width: 60,
+          text: location["city"]!,
+          color: Colors.deepOrange),
+      BoxPlaceholder(
+          height: 60,
+          width: 60,
+          text: location["state"]!,
+          color: Colors.deepOrange),
+      BoxPlaceholder(
+          height: 60,
+          width: 60,
+          text: forecast["name"]!,
+          color: Colors.deepOrange),
+    ]);
+  }
+}
+
+class ForecastText extends StatelessWidget {
+  const ForecastText({
+    super.key,
+    required this.forecast,
+  });
+
+  final Map<String, String> forecast;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: forecast.length,
+        itemBuilder: (BuildContext context, int index) {
+          String key = forecast.keys.elementAt(index);
+          String? value = forecast[key];
+          return ListTile(
+            title: Text(key),
+            subtitle: Text(value!),
+          );
+        });
+  }
+}
+
+class BoxPlaceholder extends StatelessWidget {
+  final double height;
+  final double width;
+  final String? text;
+  final Color color;
+
+  const BoxPlaceholder({
+    super.key,
+    required this.height,
+    required this.width,
+    required this.text,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: width,
+        height: height,
+        child: Placeholder(color: color, child: Center(child: Text(text!))));
   }
 }
