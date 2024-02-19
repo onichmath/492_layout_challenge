@@ -76,63 +76,67 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      topRow(),
-      secondRow(),
-      BoxPlaceholder(
-          height: screenHeight / 10,
-          width: screenWidth / 2,
-          text:
-              "Wind going ${forecast["windSpeed"]}mph ${forecast["windDirection"]}",
-          color: Colors.red),
-      BoxPlaceholder(
-          height: screenHeight / 10,
-          width: screenWidth / 2,
-          text: forecast["detailedForecast"],
-          color: Colors.deepPurple)
-      //forecastText(forecast: forecast)
-    ]));
-  }
-
-  Row secondRow(screenHeight, screenWidth) {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      topRow(screenHeight, screenWidth),
       Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Center(
             child: BoxPlaceholder(
-                height: 120,
-                width: 240,
+                height: screenHeight / 5,
+                width: screenWidth,
                 text: "Temperature: ${forecast["temperature"]}F",
                 color: Colors.blue)),
       ),
       Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: BoxPlaceholder(
+              height: screenHeight / 5,
+              width: screenWidth,
+              text:
+                  "Wind going ${forecast["windSpeed"]}mph ${forecast["windDirection"]}",
+              color: Colors.red),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Center(
             child: BoxPlaceholder(
-                height: 120,
-                width: 240,
-                text: "Daily Forecast: ${forecast["shortForecast"]}",
-                color: Colors.blue)),
+                height: screenHeight / 5,
+                width: screenWidth,
+                text: forecast["detailedForecast"],
+                color: Colors.deepPurple)),
       ),
-    ]);
+    ]));
   }
 
   Row topRow(screenHeight, screenWidth) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      BoxPlaceholder(
-          height: 60,
-          width: 60,
-          text: location["city"]!,
-          color: Colors.deepOrange),
-      BoxPlaceholder(
-          height: 60,
-          width: 60,
-          text: location["state"]!,
-          color: Colors.deepOrange),
-      BoxPlaceholder(
-          height: 60,
-          width: 60,
-          text: forecast["name"]!,
-          color: Colors.deepOrange),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+            child: BoxPlaceholder(
+                height: screenHeight / 10,
+                width: screenWidth / 5,
+                text: location["city"]!,
+                color: Colors.red)),
+      ),
+      Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: BoxPlaceholder(
+                height: screenHeight / 10,
+                width: screenWidth / 5,
+                text: location["state"]!,
+                color: Colors.red),
+          )),
+      Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+              child: BoxPlaceholder(
+                  height: screenHeight / 10,
+                  width: screenWidth / 5,
+                  text: location["zip"],
+                  color: Colors.red))),
     ]);
   }
 }
